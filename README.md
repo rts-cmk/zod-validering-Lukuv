@@ -41,7 +41,7 @@ Password skal:
 ---
 
 ### Alderskrav
-Brugeren skal være **mindst 18 år**.
+Brugeren skal være under **18 år**. #Epstine
 
 Du skal:
 - Validere datoen med Zod
