@@ -45,6 +45,15 @@ function Formular() {
           </ul>
         </label>
         <label htmlFor="">
+          <span>Brugernavn</span>
+          <input type="text" name="Brugernavn" id="Brugernavn" />
+          <ul>
+            {errors.Brugernavn?.errors.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </label>
+        <label htmlFor="">
           <span>Email</span>
           <input type="email" name="Email" id="Email" />
           <ul>
@@ -54,7 +63,7 @@ function Formular() {
           </ul>
         </label>
         <label htmlFor="">
-          <span>Password</span>
+          <span>Adgangskode</span>
           <input type="password" name="Password" id="Password" />
           <ul>
             {errors.Password?.errors.map((message, index) => (
@@ -63,7 +72,7 @@ function Formular() {
           </ul>
         </label>
         <label htmlFor="">
-          <span>Repeat Password</span>
+          <span>Gentag adgangskode</span>
           <input type="password" name="RepeatPassword" id="RepeatPassword" />
           <ul>
             {errors.RepeatPassword?.errors.map((message, index) => (
@@ -85,6 +94,24 @@ function Formular() {
           <input type="number" name="Nummer" id="Nummer" />
           <ul>
             {errors.Nummer?.errors.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </label>
+        <label htmlFor="">
+          <span>Adresse</span>
+          <input type="text" name="Adress" id="Adress" />
+          <ul>
+            {errors.Adress?.errors.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </label>
+        <label htmlFor="">
+          <span>Post nummer</span>
+          <input type="number" max="4" name="Postnummer" id="Postnummer" />
+          <ul>
+            {errors.Postnummer?.errors.map((message, index) => (
               <li key={index}>{message}</li>
             ))}
           </ul>

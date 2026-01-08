@@ -8,15 +8,50 @@ const userScema = z
     Password: z
       .string("")
       .min(8, "Kode skal være mere end 8 figure")
-      .regex(/[1-9]/, "SKAL HAVDE MINDST ET TAL")
-      .regex(/[!@#$%^&*]/, "SKAL HAVDE MINDST EN! '!@#$%^&*'")
-      .regex(/[a-zæøå]/, "SKAL HAVDE små BOGSTAVER!")
-      .regex(/[A-ZÆØÅ]/, "SKAL HAVDE STORE BOGSTAVER!"),
-    RepeatPassword: z.string("").nonempty("Adgangskode felt er tomt"),
-    Fødselsdag: z.string(),
+      .regex(/[1-9]/, "Skal indholde mindst 1 tal")
+      .regex(
+        /[!@#$%^&*]/,
+        "Skal indeholde mindst en special karakter '!@#$%^&*'"
+      )
+      .regex(/[a-zæøå]/, "Skal havde mindst 1 småt bogstav!")
+      .regex(/[A-ZÆØÅ]/, "Skal havde mindst 1 stort bogstav!"),
+    RepeatPassword: z.string("").nonempty("Gentag adgangskode skal udfyldes"),
+    Brugernavn: z
+      .string()
+      .min(4, "Brugernavn skal mindst være 4 bogstaver")
+      .includes("_", "Skal indeholde '_'")
+      .refine((str) => {
+        let count = 0;
+        for (let char of str) {
+          if (char >= "0" && char <= "9") {
+            count++;
+          }
+        }
+        return count >= 4;
+      }, "Brugernavn skal indeholde mindst 4 tal"),
+    Fødselsdag: z
+      .string("Indtast Dato")
+      .transform((str) => new Date(str))
+      .pipe(
+        z.date().refine((date) => {
+          const today = new Date();
+          let age = today.getFullYear() - date.getFullYear();
+          const monthDiff = today.getMonth() - date.getMonth();
+          if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < date.getDate())
+          ) {
+            age--;
+          }
+          return age >= 18;
+        }, "Du er ikke 18 år!")
+      ),
     Nummer: z.coerce
       .number("Tak for dit nummer shorty")
-      .min(10000000, "DU SKAL HAVDE 8 TAL!"),
+      .min(10000000, "Telefon nummer er for kort")
+      .max(99999999, "Telefon nummer er for langt"),
+    Adress: z.string().min(5, "Ikke gyldig adresse"),
+    Postnummer: z.string().min(4, "Postnummer kan kun være 4 tal").max(4, "Postnummer for langt")
   })
   .refine((schema) => schema.Password === schema.RepeatPassword, {
     path: ["RepeatPassword"],
